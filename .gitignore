@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.env/
+
+# Secrets and configuration
+.env
+.env.*
+backend.conf
+*.conf
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Application logs
+*.log
+user_activity.log
+video_gen_log.txt
+
+# Generated media assets (Avoid pushing generated output folders)
+generated_clips/
+generated_images/
+video_gen_progress.json
+moon_videoTEMP_MPY_*.mp4
+
+# Editor / IDE configuration
+.vscode/
+.idea/
+.cursor/
