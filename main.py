@@ -33,6 +33,7 @@ from config import (
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("birthday-backend")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = FastAPI(title="Birthday AI Adventure Backend")
 
@@ -72,7 +73,7 @@ class LogRequest(BaseModel):
 
 def log_activity(password: str, action: str):
     if password in ["manohari@123", "manohar@123"]:
-        log_file_path = "/Users/apple/Documents/unloadin/adventure_backend/user_activity.log"
+        log_file_path = os.path.join(BASE_DIR, "user_activity.log")
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_entry = f"[{timestamp}] {action}\n"
         try:
@@ -89,7 +90,7 @@ async def log_action(payload: LogRequest) -> dict:
 
 @app.get("/api/gira-gira-music")
 async def get_gira_gira():
-    music_path = "/Users/apple/Documents/unloadin/adventure_backend/Gira Gira.mp3"
+    music_path = os.path.join(BASE_DIR, "Gira Gira.mp3")
     if os.path.exists(music_path):
         return FileResponse(music_path, media_type="audio/mpeg")
     raise HTTPException(status_code=404, detail="Music file not found")
@@ -307,8 +308,8 @@ async def generate_surprise(payload: SurpriseRequest) -> dict:
     if not gemini_client:
         return {"status": "error", "message": "Gemini API key is not configured"}
 
-    source_image_path = "/Users/apple/Documents/unloadin/adventure_backend/pictures/WhatsApp Image 2026-06-11 at 11.27.01.jpeg"
-    output_image_path = "/Users/apple/Documents/unloadin/adventure_backend/generated_images/surprise_generated.png"
+    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.01.jpeg")
+    output_image_path = os.path.join(BASE_DIR, "generated_images", "surprise_generated.png")
 
     if not os.path.exists(source_image_path):
       logger.error(f"Source image not found at {source_image_path}")
@@ -395,8 +396,8 @@ async def generate_surprise_2(payload: SurpriseRequest2) -> dict:
     if not gemini_client:
         return {"status": "error", "message": "Gemini API key is not configured"}
 
-    source_image_path = "/Users/apple/Documents/unloadin/adventure_backend/pictures/WhatsApp Image 2026-06-11 at 11.27.01.jpeg"
-    output_image_path = "/Users/apple/Documents/unloadin/adventure_backend/generated_images/surprise_generated_2.png"
+    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.01.jpeg")
+    output_image_path = os.path.join(BASE_DIR, "generated_images", "surprise_generated_2.png")
 
     if not os.path.exists(source_image_path):
         logger.error(f"Source image not found at {source_image_path}")
