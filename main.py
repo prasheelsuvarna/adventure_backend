@@ -109,7 +109,7 @@ class ChatRequest(BaseModel):
 class ComplimentRequest(BaseModel):
     quiz_answers: List[Dict[str, str]]
     wyr_answers: List[Dict[str, str]]
-    fact_answers: List[Dict[str, str]]
+    fact_answers: Optional[List[Dict[str, str]]] = []
 
 @app.on_event("startup")
 def _startup_checks() -> None:
@@ -343,20 +343,30 @@ async def generate_surprise(payload: SurpriseRequest) -> dict:
                 model="gemini-3.1-flash-image",
                 contents=[src_img, prompt_text]
             )
-            for part in response.candidates[0].content.parts:
-                if hasattr(part, 'inline_data') and part.inline_data is not None:
-                    generated_bytes = part.inline_data.data
-                    break
+            logger.info(f"gemini-3.1-flash-image response candidates count: {len(response.candidates) if response.candidates else 0}")
+            if response.candidates:
+                logger.info(f"gemini-3.1-flash-image finish reason: {response.candidates[0].finish_reason}")
+                if response.candidates[0].content and response.candidates[0].content.parts:
+                    for i, p in enumerate(response.candidates[0].content.parts):
+                        logger.info(f"Part {i}: text={p.text[:100] if p.text else None}, inline_data={p.inline_data is not None}")
+                        if p.inline_data:
+                            generated_bytes = p.inline_data.data
+                            break
         except Exception as e:
             logger.warning(f"Failed to generate using gemini-3.1-flash-image: {e}. Trying fallback model gemini-2.5-flash-image...")
             response = gemini_client.models.generate_content(
                 model="gemini-2.5-flash-image",
                 contents=[src_img, prompt_text]
             )
-            for part in response.candidates[0].content.parts:
-                if hasattr(part, 'inline_data') and part.inline_data is not None:
-                    generated_bytes = part.inline_data.data
-                    break
+            logger.info(f"gemini-2.5-flash-image response candidates count: {len(response.candidates) if response.candidates else 0}")
+            if response.candidates:
+                logger.info(f"gemini-2.5-flash-image finish reason: {response.candidates[0].finish_reason}")
+                if response.candidates[0].content and response.candidates[0].content.parts:
+                    for i, p in enumerate(response.candidates[0].content.parts):
+                        logger.info(f"Part {i}: text={p.text[:100] if p.text else None}, inline_data={p.inline_data is not None}")
+                        if p.inline_data:
+                            generated_bytes = p.inline_data.data
+                            break
         
         if not generated_bytes:
             raise ValueError("No image bytes were returned by the Gemini image generator model")
@@ -431,20 +441,30 @@ async def generate_surprise_2(payload: SurpriseRequest2) -> dict:
                 model="gemini-3.1-flash-image",
                 contents=[src_img, prompt_text]
             )
-            for part in response.candidates[0].content.parts:
-                if hasattr(part, 'inline_data') and part.inline_data is not None:
-                    generated_bytes = part.inline_data.data
-                    break
+            logger.info(f"gemini-3.1-flash-image (second) response candidates count: {len(response.candidates) if response.candidates else 0}")
+            if response.candidates:
+                logger.info(f"gemini-3.1-flash-image (second) finish reason: {response.candidates[0].finish_reason}")
+                if response.candidates[0].content and response.candidates[0].content.parts:
+                    for i, p in enumerate(response.candidates[0].content.parts):
+                        logger.info(f"Part {i}: text={p.text[:100] if p.text else None}, inline_data={p.inline_data is not None}")
+                        if p.inline_data:
+                            generated_bytes = p.inline_data.data
+                            break
         except Exception as e:
-            logger.warning(f"Failed to generate using gemini-3.1-flash-image: {e}. Trying fallback model gemini-2.5-flash-image...")
+            logger.warning(f"Failed to generate using gemini-3.1-flash-image (second): {e}. Trying fallback model gemini-2.5-flash-image...")
             response = gemini_client.models.generate_content(
                 model="gemini-2.5-flash-image",
                 contents=[src_img, prompt_text]
             )
-            for part in response.candidates[0].content.parts:
-                if hasattr(part, 'inline_data') and part.inline_data is not None:
-                    generated_bytes = part.inline_data.data
-                    break
+            logger.info(f"gemini-2.5-flash-image (second) response candidates count: {len(response.candidates) if response.candidates else 0}")
+            if response.candidates:
+                logger.info(f"gemini-2.5-flash-image (second) finish reason: {response.candidates[0].finish_reason}")
+                if response.candidates[0].content and response.candidates[0].content.parts:
+                    for i, p in enumerate(response.candidates[0].content.parts):
+                        logger.info(f"Part {i}: text={p.text[:100] if p.text else None}, inline_data={p.inline_data is not None}")
+                        if p.inline_data:
+                            generated_bytes = p.inline_data.data
+                            break
         
         if not generated_bytes:
             raise ValueError("No image bytes were returned by the Gemini image generator model")
