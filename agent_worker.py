@@ -58,6 +58,7 @@ async def entrypoint(ctx: JobContext):
             model=GEMINI_REALTIME_MODEL,
             voice=GEMINI_VOICE,
             temperature=0.8,
+            api_key=GEMINI_API_KEY,
         ),
     )
 
