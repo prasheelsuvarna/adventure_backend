@@ -107,9 +107,9 @@ class ChatRequest(BaseModel):
     history: Optional[List[Dict[str, str]]] = []
 
 class ComplimentRequest(BaseModel):
-    quiz_answers: List[Dict[str, str]]
-    wyr_answers: List[Dict[str, str]]
-    fact_answers: Optional[List[Dict[str, str]]] = []
+    quiz_answers: Optional[List[Dict]] = []
+    wyr_answers: Optional[List[Dict]] = []
+    fact_answers: Optional[List[Dict]] = []
 
 @app.on_event("startup")
 def _startup_checks() -> None:

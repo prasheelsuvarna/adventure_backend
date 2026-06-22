@@ -94,6 +94,19 @@ async def entrypoint(ctx: JobContext):
                                 )
                             )
                         )
+                    elif msg_type == "envelope_opened":
+                        logger.info("Received envelope_opened trigger. Directing Aria to respond in Kanglish.")
+                        realtime_session._send_client_event(
+                            types.LiveClientRealtimeInput(
+                                text=(
+                                    "Direct Aria to say warmly, softly, and gently in conversational Kanglish (Kannada mixed naturally with English) "
+                                    "that this letter was made by namma boss (our boss) especially as a birthday wish card for her. "
+                                    "She must say 'namma boss' (not 'nimma boss' or 'your boss'). "
+                                    "Tell her to please take her time and read it carefully. "
+                                    "Speak like a normal, calm, friendly human. Do NOT be dramatic or exaggerated."
+                                )
+                            )
+                        )
                     elif msg_type == "quiz_started":
                         question = payload.get("question", "")
                         logger.info(f"Received quiz_started trigger. Directing Aria to explain and read question: {question}")
@@ -399,7 +412,11 @@ async def entrypoint(ctx: JobContext):
                 "ಮುಂದುವರಸಿ": "Awesome! Click Next Question to continue.",
                 "Hegide portrait": "How is the portrait? Good, right? Please click yes or no and let us know.",
                 "ishta aagiddu nodi": "Thank you! I am so glad you liked it!",
-                "innu chennagi madlikke": "Oh, is that so? Next time I will try to make it even better."
+                "innu chennagi madlikke": "Oh, is that so? Next time I will try to make it even better.",
+                "ಈ ಪತ್ರವನ್ನು ನನ್ನ ಬಾಸ್": "This letter was made by my boss as a birthday wish card for you. Please take your time and read.",
+                "boss made this letter": "This letter was made by my boss as a birthday wish card for you. Please take your time and read.",
+                "birthday wish card": "This letter was made by my boss as a birthday wish card for you. Please take your time and read.",
+                "time madi odi": "This letter was made by my boss as a birthday wish card for you. Please take your time and read."
             }
             
             matched = False
@@ -509,6 +526,8 @@ async def entrypoint(ctx: JobContext):
                     "Keep it short, warm, and casual like greeting a close friend. "
                     "Do NOT ask any questions yet — just warmly welcome her."
                 )
+            elif stage == "envelope":
+                greeting_text = None
             else:
                 greeting_text = (
                     "Greet Manohari in conversational Kanglish (Kannada mixed naturally with English). "
