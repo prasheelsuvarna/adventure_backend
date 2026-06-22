@@ -96,6 +96,14 @@ async def entrypoint(ctx: JobContext):
                         )
                     elif msg_type == "envelope_opened":
                         logger.info("Received envelope_opened trigger. Directing Aria to respond in Kanglish.")
+                        # Immediately send ACK so frontend stops retrying
+                        ack_payload = json.dumps({"type": "envelope_opened_ack"}).encode("utf-8")
+                        async def send_ack():
+                            try:
+                                await ctx.room.local_participant.publish_data(ack_payload)
+                            except Exception as err:
+                                logger.error("Failed to publish envelope_opened_ack: %s", err)
+                        asyncio.create_task(send_ack())
                         realtime_session._send_client_event(
                             types.LiveClientRealtimeInput(
                                 text=(
@@ -103,6 +111,8 @@ async def entrypoint(ctx: JobContext):
                                     "that this letter was made by namma boss (our boss) especially as a birthday wish card for her. "
                                     "She must say 'namma boss' (not 'nimma boss' or 'your boss'). "
                                     "Tell her to please take her time and read it carefully. "
+                                    "After that, tell her: if she would like to say anything to my boss, she can click the chat button below and type a message — "
+                                    "I will make sure it reaches him. "
                                     "Speak like a normal, calm, friendly human. Do NOT be dramatic or exaggerated."
                                 )
                             )
@@ -386,6 +396,21 @@ async def entrypoint(ctx: JobContext):
                                     "If she said no/illa, be very gracious and say that's perfectly okay, she is always special. "
                                     "Wrap up by wishing her a wonderful birthday and tell her there's one last surprise waiting "
                                     "— she can click the button to continue. Keep it warm and genuine."
+                                )
+                            )
+                        )
+
+                    elif msg_type == "envelope_chat":
+                        user_message = payload.get("text", "")
+                        logger.info(f"Received envelope_chat message: {user_message}")
+                        realtime_session._send_client_event(
+                            types.LiveClientRealtimeInput(
+                                text=(
+                                    f"Direct Aria to respond warmly in conversational Kanglish (Kannada mixed naturally with English) "
+                                    f"to this message that Manohari just typed: '{user_message}'. "
+                                    "Give her a genuine, warm compliment about the message. "
+                                    "Then tell her: 'I will make sure this reaches namma boss (our boss) — he will definitely be very happy to read it!' "
+                                    "Keep it short, warm, and heartfelt. Do NOT be dramatic or exaggerated."
                                 )
                             )
                         )
