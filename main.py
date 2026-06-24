@@ -308,7 +308,7 @@ async def generate_surprise(payload: SurpriseRequest) -> dict:
     if not gemini_client:
         return {"status": "error", "message": "Gemini API key is not configured"}
 
-    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.01.jpeg")
+    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.22 (1).jpeg")
     output_image_path = os.path.join(BASE_DIR, "generated_images", "surprise_generated.png")
 
     if not os.path.exists(source_image_path):
@@ -328,10 +328,14 @@ async def generate_surprise(payload: SurpriseRequest) -> dict:
         
         logger.info(f"Generating aesthetic background for landscape={landscape_clean}, dress={dress_clean}, color={color_clean}...")
         prompt_text = (
-            f"Based on the person in the input photo, generate a high-quality, extremely professional starlit aesthetic studio portrait photograph of this exact same woman. "
+            f"The input photo is a collage / multi-photo layout containing multiple pictures of the same woman. "
+            f"Carefully identify her face, hair, and features from the clearest view in this collage. "
+            f"Generate a SINGLE, full body (head to toe) portrait photograph of this exact same woman — do NOT generate a collage, grid, or split layout; it must be one single full-length photo. "
+            f"CRITICAL: Her face must match exactly — same facial structure, eyes, nose, lips, skin tone as seen in the source photo. Her hair must also match exactly — same hair color, texture, volume, and hairstyle with no changes whatsoever. "
+            f"SMILE: Her expression should have a gentle, soft, natural closed-lip smile — exactly like in the source photo. Do NOT show teeth. Do NOT open her mouth. The smile must be subtle and natural, lips together, matching the real photo's expression. "
+            f"The woman should appear to be approximately 5.4 to 5.5 feet tall, with a natural, elegant full-body pose showing her from head to toe. "
             f"She should be standing in a setting with {landscape_clean}, wearing a gorgeous {color_clean} {dress_clean}. "
-            f"Maintain her facial structure, look, hair, and features so it looks exactly like the person in the input photo. "
-            f"Close-up portrait view, centered composition, aesthetic soft lighting, highly detailed, looking forward. "
+            f"Full body shot, full-length view from head to toe, centered composition, aesthetic soft lighting, highly detailed, looking forward. "
             f"Do not add any text or watermark to the image."
         )
         
@@ -406,7 +410,7 @@ async def generate_surprise_2(payload: SurpriseRequest2) -> dict:
     if not gemini_client:
         return {"status": "error", "message": "Gemini API key is not configured"}
 
-    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.01.jpeg")
+    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.22 (1).jpeg")
     output_image_path = os.path.join(BASE_DIR, "generated_images", "surprise_generated_2.png")
 
     if not os.path.exists(source_image_path):
@@ -426,10 +430,14 @@ async def generate_surprise_2(payload: SurpriseRequest2) -> dict:
 
         logger.info(f"Generating aesthetic background 2 for backdrop={backdrop_clean}, outfit={outfit_clean}, color={color_clean}...")
         prompt_text = (
-            f"Based on the person in the input photo, generate a high-quality, extremely professional starlit aesthetic studio portrait photograph of this exact same woman. "
+            f"The input photo is a collage / multi-photo layout containing multiple pictures of the same woman. "
+            f"Carefully identify her face, hair, and features from the clearest view in this collage. "
+            f"Generate a SINGLE, full body (head to toe) portrait photograph of this exact same woman — do NOT generate a collage, grid, or split layout; it must be one single full-length photo. "
+            f"CRITICAL: Her face must match exactly — same facial structure, eyes, nose, lips, skin tone as seen in the source photo. Her hair must also match exactly — same hair color, texture, volume, and hairstyle with no changes whatsoever. "
+            f"SMILE: Her expression should have a gentle, soft, natural closed-lip smile — exactly like in the source photo. Do NOT show teeth. Do NOT open her mouth. The smile must be subtle and natural, lips together, matching the real photo's expression. "
+            f"The woman should appear to be approximately 5.4 to 5.5 feet tall, with a natural, elegant full-body pose showing her from head to toe. "
             f"She should be standing in a setting with {backdrop_clean}, wearing a gorgeous {color_clean} {outfit_clean}. "
-            f"Maintain her facial structure, look, hair, and features so it looks exactly like the person in the input photo. "
-            f"Close-up portrait view, centered composition, aesthetic soft lighting, highly detailed, looking forward. "
+            f"Full body shot, full-length view from head to toe, centered composition, aesthetic soft lighting, highly detailed, looking forward. "
             f"Do not add any text or watermark to the image."
         )
         

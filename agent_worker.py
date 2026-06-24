@@ -267,7 +267,7 @@ async def entrypoint(ctx: JobContext):
                             types.LiveClientRealtimeInput(
                                 text=(
                                     "Direct Aria to say warmly, softly, and politely in conversational Kanglish (Kannada mixed naturally with English) "
-                                    "that her creator has written some beautiful and heartfelt poetry lines especially for her. "
+                                    "that namma boss has written some beautiful and heartfelt poetry lines especially for her. "
                                     "Tell her with gentle, warm emotion that she should click the button to unlock the first line. "
                                     "Speak like a normal, warm, and friendly human. Do NOT be dramatic or exaggerated, but show polite, gentle warmth."
                                 )
@@ -349,12 +349,12 @@ async def entrypoint(ctx: JobContext):
                             )
                         )
                     elif msg_type == "convo_q3":
-                        logger.info("convo_q3: Aria to ask for message to creator")
+                        logger.info("convo_q3: Aria to ask for message to boss")
                         realtime_session._send_client_event(
                             types.LiveClientRealtimeInput(
                                 text=(
-                                    "Direct Aria to ask Manohari in conversational Kanglish: "
-                                    "'Is there any message you'd like to leave for my creator? "
+                                    "Direct Aria to ask Manohari warmly in conversational Kanglish: "
+                                    "'Is there any message you'd like to leave for namma boss? "
                                     "I'll make sure it reaches him directly. You can type or speak it!' "
                                     "Keep the tone sweet, gentle, and heartfelt."
                                 )
@@ -362,11 +362,11 @@ async def entrypoint(ctx: JobContext):
                         )
                     elif msg_type == "convo_q3_answered":
                         answer = payload.get("answer", "")
-                        logger.info(f"convo_q3_answered (message for creator): {answer}")
+                        logger.info(f"convo_q3_answered (message for boss): {answer}")
                         realtime_session._send_client_event(
                             types.LiveClientRealtimeInput(
                                 text=(
-                                    f"Direct Aria to warmly acknowledge and confirm her message for the creator: '{answer}'. "
+                                    f"Direct Aria to warmly acknowledge and confirm her message for namma boss: '{answer}'. "
                                     "Tell her in conversational Kanglish that the message will definitely be delivered and it means a lot. "
                                     "Keep it short, 1-2 sentences, and very heartfelt."
                                 )
@@ -378,9 +378,8 @@ async def entrypoint(ctx: JobContext):
                             types.LiveClientRealtimeInput(
                                 text=(
                                     "Direct Aria to ask Manohari in conversational Kanglish: "
-                                    "'Is there any possibility that next year on your birthday, "
-                                    "you will be able to celebrate with my creator again? "
-                                    "Howdu or Illa? You can click the button or just tell me!' "
+                                    "'My boss is hoping that next year he will be able to celebrate your birthday with you in person, is this possible? "
+                                    "Howdu, Illa, or Maybe? You can click the button on the screen or just tell me!' "
                                     "Ask gently, warmly, with no pressure at all."
                                 )
                             )
@@ -429,9 +428,14 @@ async def entrypoint(ctx: JobContext):
             predefined = {
                 "ಖಂಡಿತವಾಗಿಯೂ ನೀವು ಅದನ್ನ zoom ಮಾಡಿ ನೋಡಬಹುದು": "Of course you can zoom in and see it! It looks great, doesn't it? Let's continue our adventure, click the button to go to the next screen.",
                 "ನಿಮ್ಮ favorites ಎಲ್ಲವನ್ನೂ ನೋಡಿದೆ": "I saw all your favorites, they are so nice! According to them, I have a surprise for you. Would you like to see it? Click the button below.",
-                "ಬನ್ನಿ ನಮ್ಮ adventure ನ ಸ್ಟಾರ್ಟ್ ಮಾಡೋಣ": "Happy Birthday Manohari! Let's start our adventure. Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "ಬನ್ನಿ ನಮ್ಮ adventure ನ ಸ್ಟಾರ್ಟ್ ಮಾಡೋಣ": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "hesru Aria": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "hesru aria": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "ಹೆಸರು ಏರಿಯಾ": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "adventure ready": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "adventure redy": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
                 "surprises, personality games": "A birthday adventure awaits you! 🎂",
-                "welcome gift": "Happy Birthday Manohari! Let's start our adventure. Before that, a welcome gift awaits you. Click the gift box to open it.",
+                "welcome gift": "Happy Birthday Manohari! My name is Aria, and your birthday adventure is ready! Before that, a welcome gift awaits you. Click the gift box to open it.",
                 "Personality Quiz": "In this personality quiz, you'll get a special surprise based on your choices! First question: Which landscape vibes with your soul the most? Which one might you choose?",
                 "Next question click": "Awesome! Click Next Question to continue.",
                 "ಮುಂದುವರಸಿ": "Awesome! Click Next Question to continue.",
@@ -539,7 +543,7 @@ async def entrypoint(ctx: JobContext):
             elif stage == "wyr":
                 greeting_text = (
                     "Direct Aria to say warmly, softly, and politely in conversational Kanglish (Kannada mixed naturally with English) "
-                    "that her creator has written some beautiful and heartfelt poetry lines especially for her, and she "
+                    "that namma boss has written some beautiful and heartfelt poetry lines especially for her, and she "
                     "should click the button to unlock the first line. "
                     "Speak like a normal, warm, friendly human, avoiding exaggerated dramatic phrases, but expressing gentle and polite emotion."
                 )
@@ -556,7 +560,8 @@ async def entrypoint(ctx: JobContext):
             else:
                 greeting_text = (
                     "Greet Manohari in conversational Kanglish (Kannada mixed naturally with English). "
-                    "Wish her a happy birthday and tell her: 'Happy Birthday Manohari! Let's start our adventure. "
+                    "Wish her a happy birthday and tell her: 'Happy Birthday Manohari! Nan hesru Aria, "
+                    "nim goskara birthday adventure ready ide. "
                     "Before that, a welcome gift is waiting for you, click the gift box to open it.' "
                     "Speak like a normal, calm, friendly human. Do NOT be dramatic or exaggerated."
                 )
