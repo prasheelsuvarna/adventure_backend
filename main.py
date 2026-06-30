@@ -72,7 +72,7 @@ class LogRequest(BaseModel):
     action: str
 
 def log_activity(password: str, action: str):
-    if password in ["manohari@123", "manohar@123"]:
+    if password in ["sharmila@123", "manohar@123"]:
         log_file_path = os.path.join(BASE_DIR, "user_activity.log")
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_entry = f"[{timestamp}] {action}\n"
@@ -96,7 +96,7 @@ async def get_gira_gira():
     raise HTTPException(status_code=404, detail="Music file not found")
 
 class SessionRequest(BaseModel):
-    name: Optional[str] = "Manohari"
+    name: Optional[str] = "Sharmila"
     identity: Optional[str] = None
     stage: Optional[str] = "intro"
 
@@ -148,8 +148,8 @@ async def create_session(payload: SessionRequest) -> dict:
         )
 
     room_name = f"birthday-{uuid.uuid4().hex[:10]}"
-    identity = payload.identity or f"manohari-{uuid.uuid4().hex[:8]}"
-    display_name = payload.name or "Manohari"
+    identity = payload.identity or f"sharmila-{uuid.uuid4().hex[:8]}"
+    display_name = payload.name or "Sharmila"
 
     token = _build_token(room_name, identity, display_name)
 
@@ -188,7 +188,7 @@ async def chat(payload: ChatRequest) -> dict:
         return {"response": "That's super interesting! (Gemini API key is missing, but I support you anyway!)"}
 
     system_prompt = (
-        "You are Aria, a magical, warm, and playful AI birthday guide created for Manohari's birthday.\n"
+        "You are Aria, a magical, warm, and playful AI birthday guide created for Sharmila's birthday.\n"
         f"We are currently in the '{payload.stage}' stage of her birthday game.\n"
         f"She was asked: '{payload.question}' and she answered: '{payload.answer}'.\n"
         "Give a quick, witty, and super enthusiastic reaction or comment (1-2 sentences max). "
@@ -208,7 +208,7 @@ async def chat(payload: ChatRequest) -> dict:
         return {"response": response.text.strip()}
     except Exception as e:
         logger.error(f"Gemini API chat error: {e}")
-        return {"response": f"Oh, that's fabulous! I love that choice, Manohari! ✨"}
+        return {"response": f"Oh, that's fabulous! I love that choice, Sharmila! ✨"}
 
 @app.post("/api/compliment")
 async def generate_compliments(payload: ComplimentRequest) -> dict:
@@ -223,7 +223,7 @@ async def generate_compliments(payload: ComplimentRequest) -> dict:
         }
 
     prompt = (
-        "Below are Manohari's answers to various personality, preference, and trivia questions from her Birthday Adventure:\n"
+        "Below are Sharmila's answers to various personality, preference, and trivia questions from her Birthday Adventure:\n"
         f"Quiz answers: {json.dumps(payload.quiz_answers)}\n"
         f"Would-You-Rather answers: {json.dumps(payload.wyr_answers)}\n"
         f"Trivia results: {json.dumps(payload.fact_answers)}\n\n"
@@ -267,7 +267,7 @@ async def generate_final_message(payload: ComplimentRequest) -> dict:
         }
 
     prompt = (
-        "Based on Manohari's game choices:\n"
+        "Based on Sharmila's game choices:\n"
         f"Quiz: {json.dumps(payload.quiz_answers)}\n"
         f"Would You Rather: {json.dumps(payload.wyr_answers)}\n"
         "Generate a magical birthday profile summary for her. "
@@ -294,7 +294,7 @@ async def generate_final_message(payload: ComplimentRequest) -> dict:
         return {
             "title": "Your Birthday Profile: The Spirited Explorer",
             "profile": "A vibrant personality who pairs classic style with a love for high-spirited adventures. You are creative, thoughtful, and bring a special touch of magic wherever you go.",
-            "wishes": "Manohari, may this year bring you closer to all your biggest dreams and fill every day with joy, laughter, and wonder! Happy Birthday!"
+            "wishes": "Sharmila, may this year bring you closer to all your biggest dreams and fill every day with joy, laughter, and wonder! Happy Birthday!"
         }
 
 class SurpriseRequest(BaseModel):
@@ -308,7 +308,7 @@ async def generate_surprise(payload: SurpriseRequest) -> dict:
     if not gemini_client:
         return {"status": "error", "message": "Gemini API key is not configured"}
 
-    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.22 (1).jpeg")
+    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-29 at 15.05.16.jpeg")
     output_image_path = os.path.join(BASE_DIR, "generated_images", "surprise_generated.png")
 
     if not os.path.exists(source_image_path):
@@ -410,7 +410,7 @@ async def generate_surprise_2(payload: SurpriseRequest2) -> dict:
     if not gemini_client:
         return {"status": "error", "message": "Gemini API key is not configured"}
 
-    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-11 at 11.27.22 (1).jpeg")
+    source_image_path = os.path.join(BASE_DIR, "pictures", "WhatsApp Image 2026-06-29 at 15.05.16.jpeg")
     output_image_path = os.path.join(BASE_DIR, "generated_images", "surprise_generated_2.png")
 
     if not os.path.exists(source_image_path):
